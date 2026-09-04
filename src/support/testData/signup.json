@@ -1,0 +1,15 @@
+{
+    "formData": {
+        "firstName": "Amitava",
+        "lastName": "Sarkar",
+        "userName": "Amit",
+        "password": "Amitava@123"
+    },
+    "text":{
+        "login" : "Login",
+        "newUser" : "New User",
+        "register" : "Register",
+        "backToLogin" : "Back to Login",
+        "userRegisteredSuccessfully" : "User Registered Successfully."
+    }
+}
