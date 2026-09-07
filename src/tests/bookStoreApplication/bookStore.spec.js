@@ -16,7 +16,7 @@ test.describe('Book Store page tests', () => {
         await bookStore.selectingBook();
     });
 
-    test.only('Add book to your collection', async ({ bookStore }) => {
+    test('Add book to your collection', async ({ bookStore }) => {
         await bookStore.selectingBook();
         await bookStore.addBookToYourCollection();
     });
