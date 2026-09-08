@@ -15,6 +15,13 @@ export class BookStore {
         this.bookTitles = page.locator('td .action-buttons span a')
         this.bookStoreHeader = page.locator('h1.text-center')
         this.addToYourCollectionButton = page.getByRole('button', { name: 'Add To Your Collection' });
+        this.backToStoreButton = page.getByRole('button', { name: 'Back To Book Store' });
+        this.profileTab = page.getByRole('link', { name: 'Profile' });
+        this.deleteButton = page.locator('[title="Delete"]')
+        this.deletePopup = page.locator('.modal-content')
+        this.deletePopupOKButton = page.getByRole('button', { name: 'OK', exact: true });
+        this.bookTableRows = page.locator('table tbody tr');
+
     }
 
     async navigateToBookStorePage() {
@@ -52,4 +59,30 @@ export class BookStore {
 
         await this.addToYourCollectionButton.click();
     }
+
+    async functionBackToBookStoreButton() {
+        await expect(this.backToStoreButton).toBeVisible();
+        await this.backToStoreButton.click();
+        await expect(this.page).toHaveURL('/books');
+        await this.visibilityOfBookStorePage();
+    }
+
+    async deleteBookFromYourCollection() {
+        await this.functionBackToBookStoreButton();
+        await expect(this.profileTab).toBeVisible();
+        await this.profileTab.click();
+        await expect(this.bookTable).toBeVisible();
+        await expect(this.deleteButton).toBeVisible();
+        await this.deleteButton.click();
+        this.page.once('dialog', async (dialog) => {
+            expect(dialog.message()).toBe('Book deleted.');
+            await dialog.accept();
+        });
+        await expect(this.deletePopup).toBeVisible();
+        await expect(this.deletePopupOKButton).toBeVisible();
+        await this.deletePopupOKButton.click();
+        await expect(this.bookTableRows).toHaveCount(0);
+    }
+
+   
 }

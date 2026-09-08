@@ -19,5 +19,25 @@ test.describe('Book Store page tests', () => {
     test('Add book to your collection', async ({ bookStore }) => {
         await bookStore.selectingBook();
         await bookStore.addBookToYourCollection();
+        await bookStore.deleteBookFromYourCollection();
     });
+
+    test('Back to book store page', async ({ bookStore }) => {
+        await bookStore.selectingBook();
+        await bookStore.addBookToYourCollection();
+        await bookStore.functionBackToBookStoreButton();
+    });
+
+    test('Delete book from your collection', async ({ bookStore }) => {
+        await bookStore.selectingBook();
+        await bookStore.addBookToYourCollection();
+        await bookStore.deleteBookFromYourCollection();
+    })
+
+    test('visibility of delete popup', async ({ bookStore }) => {
+        await bookStore.selectingBook();
+        await bookStore.addBookToYourCollection();
+        await bookStore.deleteBookFromYourCollection();
+        //await bookStore.visibilityOfDeletePopup();
+    })
 })
