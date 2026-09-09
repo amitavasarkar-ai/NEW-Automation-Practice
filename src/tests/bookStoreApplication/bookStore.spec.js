@@ -25,7 +25,8 @@ test.describe('Book Store page tests', () => {
     test('Back to book store page', async ({ bookStore }) => {
         await bookStore.selectingBook();
         await bookStore.addBookToYourCollection();
-        await bookStore.functionBackToBookStoreButton();
+        await bookStore.deleteBookFromYourCollection();
+        //await bookStore.visibilityOfBookStorePage();
     });
 
     test('Delete book from your collection', async ({ bookStore }) => {
@@ -37,7 +38,6 @@ test.describe('Book Store page tests', () => {
     test('visibility of delete popup', async ({ bookStore }) => {
         await bookStore.selectingBook();
         await bookStore.addBookToYourCollection();
-        await bookStore.deleteBookFromYourCollection();
-        //await bookStore.visibilityOfDeletePopup();
+        await bookStore.deletePopupVisibility();
     })
 })

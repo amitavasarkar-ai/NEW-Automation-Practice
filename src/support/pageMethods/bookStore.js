@@ -20,7 +20,11 @@ export class BookStore {
         this.deleteButton = page.locator('[title="Delete"]')
         this.deletePopup = page.locator('.modal-content')
         this.deletePopupOKButton = page.getByRole('button', { name: 'OK', exact: true });
+        this.deletePopupCancelButton = page.getByRole('button', { name: 'Cancel', exact: true });
+        this.deletePopupCancelButton = page.locator('[aria-label="Close"]')
         this.bookTableRows = page.locator('table tbody tr');
+        this.deletePopupHeader = page.locator('.modal-header')
+        this.deletePopupMessage = page.locator('.modal-body')
 
     }
 
@@ -31,7 +35,7 @@ export class BookStore {
     }
 
     async visibilityOfBookStorePage() {
-        const elements = [this.searchField, this.searchIcon, this.userLabel, this.userName, this.logoutButton, this.bookTable, this.previousPageButton, this.nextPageButton];
+        const elements = [ this.searchIcon, this.userLabel, this.userName, this.logoutButton, this.bookTable, this.previousPageButton, this.nextPageButton];
         for (const element of elements) {
             await expect(element).toBeVisible();
         }
@@ -82,6 +86,22 @@ export class BookStore {
         await expect(this.deletePopupOKButton).toBeVisible();
         await this.deletePopupOKButton.click();
         await expect(this.bookTableRows).toHaveCount(0);
+    }
+
+    async deletePopupVisibility() {
+        await this.functionBackToBookStoreButton();
+        await expect(this.profileTab).toBeVisible();
+        await this.profileTab.click();
+        await expect(this.bookTable).toBeVisible();
+        await expect(this.deleteButton).toBeVisible();
+        await this.deleteButton.click();
+        await expect(this.deletePopup).toBeVisible();
+        
+        const elements = [this.deletePopupHeader, this.deletePopupMessage, this.deletePopupCancelButton, this.deletePopupOKButton];
+        for (const element of elements) {
+            await expect(element).toBeVisible();
+        }
+
     }
 
    
