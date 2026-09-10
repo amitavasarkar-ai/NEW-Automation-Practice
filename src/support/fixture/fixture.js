@@ -3,6 +3,7 @@ import {test as base} from '@playwright/test';
 import { SignUp } from '../pageMethods/signup';
 import { Login } from '../pageMethods/login';
 import { BookStore } from '../pageMethods/bookStore';
+import { HomePage } from '../pageMethods/homePage';
 
 const test = base.extend({
     signUp: async ({ page }, use) => {
@@ -15,6 +16,10 @@ const test = base.extend({
 
     bookStore: async ({ page }, use) => {
         await use(new BookStore(page));
+    },
+
+    homePage: async ({ page }, use) => {
+        await use(new HomePage(page));
     },
 });
 
