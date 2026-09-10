@@ -25,6 +25,7 @@ export class BookStore {
         this.bookTableRows = page.locator('table tbody tr');
         this.deletePopupHeader = page.locator('.modal-header')
         this.deletePopupMessage = page.locator('.modal-body')
+        this.firstBook = page.locator('[id="see-book-Git Pocket Guide"]')
 
     }
 
@@ -35,7 +36,7 @@ export class BookStore {
     }
 
     async visibilityOfBookStorePage() {
-        const elements = [ this.searchIcon, this.userLabel, this.userName, this.logoutButton, this.bookTable, this.previousPageButton, this.nextPageButton];
+        const elements = [this.searchIcon, this.userLabel, this.userName, this.logoutButton, this.bookTable, this.previousPageButton, this.nextPageButton];
         for (const element of elements) {
             await expect(element).toBeVisible();
         }
@@ -47,7 +48,7 @@ export class BookStore {
             .filter({ hasText: "You Don't Know JS" })
             .getByRole('link', { name: "You Don't Know JS" });
 
-            
+
         await expect(book).toBeVisible();
         await book.click();
         await expect(this.addToYourCollectionButton).toBeVisible();
@@ -96,7 +97,7 @@ export class BookStore {
         await expect(this.deleteButton).toBeVisible();
         await this.deleteButton.click();
         await expect(this.deletePopup).toBeVisible();
-        
+
         const elements = [this.deletePopupHeader, this.deletePopupMessage, this.deletePopupCancelButton, this.deletePopupOKButton];
         for (const element of elements) {
             await expect(element).toBeVisible();
@@ -104,5 +105,41 @@ export class BookStore {
 
     }
 
-   
+    async verifyUserIsNotAbleToAddSameBookIfItIsAlreadyInTheCollection() {
+        await this.profileTab.click();
+
+        const bookCount = await this.firstBook.count();
+        if (bookCount === 0) {
+            await this.goToBookStoreButton.click();
+            await expect(this.bookTable).toBeVisible();
+            await expect(this.firstBook).toBeVisible();
+            await this.firstBook.click();
+            await expect(this.addToYourCollectionButton).toBeVisible();
+            await this.addBookToYourCollection();
+            await expect(this.addToYourCollectionButton).toBeVisible();
+
+            this.page.once('dialog', async (dialog) => {
+                expect(dialog.message()).toBe('Book already present in the your collection!');
+                await dialog.accept();
+            });
+
+            await this.addToYourCollectionButton.click();
+        }
+        else {
+            await this.goToBookStoreButton.click();
+            await expect(this.bookTable).toBeVisible();
+            await expect(this.firstBook).toBeVisible();
+            await this.firstBook.click();
+            await expect(this.addToYourCollectionButton).toBeVisible();
+            this.page.once('dialog', async (dialog) => {
+                expect(dialog.message()).toBe('Book already present in the your collection!');
+                await dialog.accept();
+            });
+            await this.addToYourCollectionButton.click();
+        }
+    }
+
+    addToYourCollectionButton
+
+
 }

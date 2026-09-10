@@ -26,7 +26,6 @@ test.describe('Book Store page tests', () => {
         await bookStore.selectingBook();
         await bookStore.addBookToYourCollection();
         await bookStore.deleteBookFromYourCollection();
-        //await bookStore.visibilityOfBookStorePage();
     });
 
     test('Delete book from your collection', async ({ bookStore }) => {
@@ -39,5 +38,10 @@ test.describe('Book Store page tests', () => {
         await bookStore.selectingBook();
         await bookStore.addBookToYourCollection();
         await bookStore.deletePopupVisibility();
+    })
+
+    test('Verify user is not able to add same book if it is already in the collection', async ({ bookStore }) => {
+        await bookStore.verifyUserIsNotAbleToAddSameBookIfItIsAlreadyInTheCollection();
+
     })
 })
